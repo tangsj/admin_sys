@@ -1,0 +1,78 @@
+html, body, #app{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.app-container{
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.header{
+  flex: 0 0 65px;
+  width: 100%;
+  border-bottom: 1px solid #e9e9e9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .logo{
+    display: block;
+    height: 100%;
+    width: 220px;
+    text-align: center;
+    line-height: 65px;
+    background-color: #2db7f5;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #FFF;
+  }
+  .u-option{
+    margin-right: 50px;
+  }
+}
+
+#main{
+  flex: 1;
+  display: flex;
+
+  .content{
+    flex: 1;
+    padding: 20px;
+  }
+
+  .nav{
+    width: 220px;
+    border-right: 1px solid #e9e9e9;
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    .container{
+      flex: 1;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      width: 100%;
+    }
+  }
+}
+
+.footer{
+  flex: 0 0 30px;
+  border-top: 1px solid #e9e9e9;
+  width: 100%;
+  line-height: 30px;
+  text-align: center;
+}
+
+.ant-breadcrumb{
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.option-btns{
+  margin-bottom: 10px;
+  button{
+    margin-right: 10px;
+  }
+}

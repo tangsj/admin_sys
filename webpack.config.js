@@ -57,17 +57,17 @@ var webpackConfig = {
     ]
   },
   postcss: function (webpack) {
-      return [
-        cssimport({
-          addDependencyTo: webpack
-        }),
-        nested,
-        autoprefixer,
-        mqpacker,
-        csswring({
-          removeAllComments: true
-        })
-      ];
+    return [
+      cssimport({
+        addDependencyTo: webpack
+      }),
+      nested,
+      autoprefixer,
+      mqpacker,
+      csswring({
+        removeAllComments: true
+      })
+    ];
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

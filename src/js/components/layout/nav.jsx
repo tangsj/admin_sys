@@ -9,32 +9,56 @@ class Nav extends React.Component {
       this.displayName = 'Nav';
 
       this.state = {
-
+        current: '',
+        openKeys: []
       }
     }
     static contextTypes = {
       router: React.PropTypes.object
     }
 
-    handleClick(e){
+    handleClick = (e) => {
+      this.setState({
+        current: e.key,
+        openKeys: e.keyPath.slice(1)
+      });
       this.context.router.push(e.key);
     }
 
-    render() {
+    onToggle = (info) => {
+      this.setState({
+         openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
+      });
+    }
+
+    componentWillMount() {
       const selKey = location.pathname;
       const openKeyArr = selKey.split('/');
       openKeyArr.length = 2;
       const openKey = openKeyArr.join('/')
 
-      const openKeys = {}
-
+      const openKeys = []
       if(['/'].indexOf(openKey) == -1){
-        openKeys.openKeys = [openKey];
+        openKeys.push(openKey);
       }
+
+      this.setState({
+        current: selKey,
+        openKeys: openKeys
+      });
+    }
+
+    render() {
       return (
         <nav className="nav">
           <div className="container">
-            <Menu mode="inline" selectedKeys={[selKey]} style={{ width: 220 }} onClick={ this.handleClick.bind(this) }>
+            <Menu mode="inline"
+              openKeys={this.state.openKeys}
+              selectedKeys={[this.state.current]}
+              onOpen={ this.onToggle }
+              onClose={ this.onToggle }
+              style={{ width: 220 }}
+              onClick={ this.handleClick }>
               <Menu.Item key="/"> <Icon type="home" /> 首页</Menu.Item>
               <SubMenu key="/user" title={ <span><Icon type="team" />用户管理</span> }>
                 <Menu.Item key="/user/list"><Icon type="bars" />用户列表</Menu.Item>

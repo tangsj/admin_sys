@@ -64,6 +64,13 @@ class Nav extends React.Component {
                 <Menu.Item key="/user/list"><Icon type="bars" />用户列表</Menu.Item>
                 <Menu.Item key="/user/black/list"><Icon type="frown-circle" />黑名单</Menu.Item>
               </SubMenu>
+
+              <SubMenu key="/project" title={ <span><Icon type="tags" />项目管理</span> }>
+                <Menu.Item key="/project/list"><Icon type="bars" />项目列表</Menu.Item>
+                <Menu.Item key="/project/line/list"><Icon type="bars" />项目流水</Menu.Item>
+                <Menu.Item key="/project/service/list"><Icon type="bars" />服务机构</Menu.Item>
+                <Menu.Item key="/project/ae/list"><Icon type="bars" />AE团队</Menu.Item>
+              </SubMenu>
             </Menu>
           </div>
           <Footer />

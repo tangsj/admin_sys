@@ -1,3 +1,6 @@
+/**
+ * 用户列表
+ */
 import { Link } from 'react-router';
 import { Breadcrumb, Icon, Table, Button, Modal, message, notification } from 'antd';
 
@@ -47,7 +50,6 @@ class UserList extends React.Component {
       });
     }
     render() {
-      console.log('render')
       const columns = [{
         title: '姓名',
         dataIndex: 'name',

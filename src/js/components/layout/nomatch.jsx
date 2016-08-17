@@ -6,7 +6,7 @@ class NoMatch extends React.Component {
         this.displayName = 'NoMatch';
     }
     render() {
-        return <div>404</div>;
+        return <div>404 页面没找到哦！</div>;
     }
 }
 

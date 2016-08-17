@@ -21,7 +21,7 @@ class Header extends React.Component {
         );
         return (
           <header className="header">
-            <Link to="/" className="logo">CodeCook</Link>
+            <Link to="/" className="logo">Hocodo</Link>
 
             <Dropdown overlay={menu} trigger={['click']}>
               <a className="ant-dropdown-link u-option" href="#">

@@ -44,7 +44,7 @@ var webpackConfig = {
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: (env?'react-hot!babel': 'babel')
       },
       {
         test: /\.css$/,
@@ -70,6 +70,7 @@ var webpackConfig = {
     ];
   },
   plugins: [
+    new webpack.BannerPlugin('author : t_fate@163.com'),
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('css/[contenthash:8].[name].css'),
     new webpack.ProvidePlugin({

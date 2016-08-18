@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,7 +14,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/**
+ * API 路由组
+ * cros 添加Access-Control-Allow-Origin
+ */
+Route::group(['middleware' => 'cros'], function(){
+  /**
+   * 在VerifyCsrfToken中添加csrf排除
+   */
 
-Route::get('welcome', function () {
-    return json_encode(array('test' => 'welcome'));
+  // 获取服务机构列表
+  Route::get('api/service/list', 'serviceController@list');
+  // 添加服务机构
+  Route::post('api/service/add', 'serviceController@add');
+  // 删除服务机构
+  Route::post('api/service/del', 'serviceController@del');
 });

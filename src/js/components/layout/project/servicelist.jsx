@@ -2,6 +2,7 @@
  * 服务机构列表
  */
 import { Link } from 'react-router';
+import { apiRoot } from 'config';
 import { Breadcrumb, Icon, Table, Button, Modal, message, notification } from 'antd';
 
 class ProjectServiceList extends React.Component {
@@ -10,16 +11,24 @@ class ProjectServiceList extends React.Component {
       this.displayName = 'ProjectServiceList';
 
       this.state = {
-        delkeys : []
+        loading: true,
+        delkeys : [],
+        list: [],
+        pagination: {}
       }
     }
+    static defaultProps = {
+      list : []
+    }
     removeItem(item) {
+      const self = this;
       return function(){
         Modal.confirm({
           title: '删除确认！',
           content: `您确认需要删除${item.name}`,
           onOk(){
-            message.success('您选择了确定');
+            // message.success('您选择了确定');
+            self.delItemsByIds([item.key]);
           },
           onCancel(){
             message.error('您选择了取消');
@@ -49,15 +58,76 @@ class ProjectServiceList extends React.Component {
         delkeys: keys
       });
     }
+    getList(params = {}){
+      this.setState({ loading: true });
+
+      $.ajax({
+        url: apiRoot + 'api/service/list',
+        type: 'get',
+        dataType: 'json',
+        data: params,
+      }).done((res) => {
+        const data = res.data;
+        const pagination = this.state.pagination;
+
+        pagination.total = data.count;
+
+        this.setState({
+          loading: false,
+          list: data.list,
+          pagination
+        });
+      }).fail(() => {
+        notification.error({
+          message: '服务器异常',
+          duration: 2
+        });
+      });
+    }
+    delItemsByIds(ids = []){
+      this.setState({ loading: true });
+
+      // request.post(apiRoot + 'api/service/del')
+      //       .type('form')
+      //       .send({ ids: [12, 13] })
+      //       .end((err, res) => {
+      //         if (err || !res.ok) {
+      //           alert(err);
+      //         }else{
+      //           alert('删除成功');
+      //         }
+      //       });
+    }
+    handleTableChange(pagination, filters, sorter){
+      const pager = this.state.pagination;
+      pager.current = pagination.current;
+
+      this.setState({
+        pagination: pager
+      });
+
+      this.getList({
+        page: pagination.current,
+        pageSize: pagination.pageSize
+      });
+    }
+    componentDidMount() {
+      this.getList({
+        page: 1
+      });
+    }
     render() {
       const columns = [{
         title: '机构名称',
         dataIndex: 'name',
+        key: 'name'
       }, {
         title: '描述',
         dataIndex: 'desc',
+        key: 'desc'
       }, {
         title: '操作',
+        width: 120,
         key: 'operation',
         render: (text, data) => {
           return <span>
@@ -66,20 +136,6 @@ class ProjectServiceList extends React.Component {
             <a href="javascript:;" onClick={ this.removeItem(data) }>删除</a>
           </span>
         }
-      }];
-
-      const data = [{
-        key: '1',
-        name: '东风日产',
-        desc: '东风日产'
-      }, {
-        key: '2',
-        name: '中粮集团',
-        desc: '中粮集团'
-      }, {
-        key: '3',
-        name: 'BlueFocus',
-        desc: 'BlueFocus'
       }];
 
       // 通过 rowSelection 对象表明需要行选择
@@ -109,7 +165,13 @@ class ProjectServiceList extends React.Component {
             <Button type="dashed" onClick={ this.removeSelectedItem }><Icon type="delete"/></Button>
           </div>
 
-          <Table pagination={ false } rowSelection={ rowSelection } columns={ columns } dataSource={ data }/>
+          <Table loading={ this.state.loading }
+                pagination={ this.state.pagination }
+                rowSelection={ rowSelection }
+                columns={ columns }
+                dataSource={ this.state.list }
+                onChange={ this.handleTableChange.bind(this) }
+          />
         </div>
       );
     }

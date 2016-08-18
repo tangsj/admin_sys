@@ -2,10 +2,9 @@
  * 添加服务机构
  * @author tangsj
  */
+import { apiRoot } from 'config';
 import { Breadcrumb, Form, Input, Icon, Button, Modal, message, notification } from 'antd';
 const FormItem = Form.Item;
-
-import React from 'react';
 
 class AddForm extends React.Component {
     constructor(props) {
@@ -23,10 +22,45 @@ class AddForm extends React.Component {
           return;
         }
 
-        this.setState(Object.assign(this.state, {
+        this.setState({
           sending: true
-        }));
-        console.log(values);
+        });
+
+        $.ajax({
+          url: apiRoot + 'api/service/add',
+          type: 'post',
+          dataType: 'json',
+          data: values,
+        }).done((res) => {
+          this.setState({
+            sending: false
+          });
+
+          let mt = '', mc = '', type = 'info';
+
+          if(res.code == 1){
+            type = 'success';
+            mt = '添加成功';
+            mc = `您已新增服务机构：${ values.name }`;
+            this.props.form.resetFields();
+          }else{
+            type = 'error';
+            mt = '添加失败';
+            mc = `消息：${ res.body.message }`;
+          }
+
+          notification[type]({
+            message: mt,
+            description: mc,
+            duration: 3
+          });
+        }).fail(() => {
+          notification.error({
+            message: '服务器异常',
+            duration: 2
+          });
+        });
+        return false;
       });
     }
     render() {
@@ -86,7 +120,7 @@ class ProjectServiceAdd extends React.Component {
           <Breadcrumb>
             <Breadcrumb.Item><Icon type="home"/>首页</Breadcrumb.Item>
             <Breadcrumb.Item>项目管理</Breadcrumb.Item>
-            <Breadcrumb.Item>添加项目</Breadcrumb.Item>
+            <Breadcrumb.Item>添加服务机构</Breadcrumb.Item>
           </Breadcrumb>
 
           <ServiceFrom />

@@ -75,7 +75,8 @@ var webpackConfig = {
     new ExtractTextPlugin('css/[contenthash:8].[name].css'),
     new webpack.ProvidePlugin({
       React: 'react',
-      ReactDOM: 'react-dom'
+      ReactDOM: 'react-dom',
+      $: 'jquery'
     }),
     new HtmlWebpackPlugin({
       inject: 'body',

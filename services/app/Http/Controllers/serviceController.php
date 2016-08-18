@@ -99,6 +99,6 @@ class serviceController extends Controller
         'data' => $request->ids
       ];
 
-      return response()->json($request->ids);
+      return response()->json($res);
     }
 }

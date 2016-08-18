@@ -14,7 +14,10 @@ class ProjectServiceList extends React.Component {
         loading: true,
         delkeys : [],
         list: [],
-        pagination: {}
+        pagination: {
+          current: 1,
+          pageSize: 10
+        }
       }
     }
     static defaultProps = {
@@ -25,18 +28,15 @@ class ProjectServiceList extends React.Component {
       return function(){
         Modal.confirm({
           title: '删除确认！',
-          content: `您确认需要删除${item.name}`,
+          content: `您确认需要删除${item.name}？`,
           onOk(){
-            // message.success('您选择了确定');
             self.delItemsByIds([item.key]);
-          },
-          onCancel(){
-            message.error('您选择了取消');
           }
         });
       }
     }
     removeSelectedItem = () => {
+      const self = this;
       if(this.state.delkeys.length == 0){
         Modal.info({
           title: '提示',
@@ -44,10 +44,13 @@ class ProjectServiceList extends React.Component {
         });
         return false;
       }
-      notification.info({
-        message: '删除提示',
-        description: `您即将删除${ JSON.stringify(this.state.delkeys) }`,
-        duration: 2
+
+      Modal.confirm({
+        title: '删除确认！',
+        content: `您确认需要删除选中的行？`,
+        onOk(){
+          self.delItemsByIds(self.state.delkeys);
+        }
       });
     }
     setRemoveItemState(selectedRows){
@@ -78,6 +81,7 @@ class ProjectServiceList extends React.Component {
           pagination
         });
       }).fail(() => {
+        this.setState({ loading: false });
         notification.error({
           message: '服务器异常',
           duration: 2
@@ -86,17 +90,29 @@ class ProjectServiceList extends React.Component {
     }
     delItemsByIds(ids = []){
       this.setState({ loading: true });
-
-      // request.post(apiRoot + 'api/service/del')
-      //       .type('form')
-      //       .send({ ids: [12, 13] })
-      //       .end((err, res) => {
-      //         if (err || !res.ok) {
-      //           alert(err);
-      //         }else{
-      //           alert('删除成功');
-      //         }
-      //       });
+      $.ajax({
+        url: apiRoot + 'api/service/del',
+        type: 'post',
+        dataType: 'json',
+        data: { ids: ids },
+      }).done((res) => {
+        this.setState({ loading: false });
+        if(res.code == 1){
+          message.success('删除成功');
+          this.getList({
+            page: this.state.pagination.current,
+            pageSize: this.state.pagination.pageSize
+          });
+        }else{
+          message.error('删除失败！');
+        }
+      }).fail(() => {
+        this.setState({ loading: false });
+        notification.error({
+          message: '服务器异常',
+          duration: 2
+        });
+      });
     }
     handleTableChange(pagination, filters, sorter){
       const pager = this.state.pagination;
@@ -113,7 +129,7 @@ class ProjectServiceList extends React.Component {
     }
     componentDidMount() {
       this.getList({
-        page: 1
+        page: this.state.pagination.current
       });
     }
     render() {

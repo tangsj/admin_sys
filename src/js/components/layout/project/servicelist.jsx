@@ -115,13 +115,6 @@ class ProjectServiceList extends React.Component {
       });
     }
     handleTableChange(pagination, filters, sorter){
-      const pager = this.state.pagination;
-      pager.current = pagination.current;
-
-      this.setState({
-        pagination: pager
-      });
-
       this.getList({
         page: pagination.current,
         pageSize: pagination.pageSize
@@ -147,7 +140,7 @@ class ProjectServiceList extends React.Component {
         key: 'operation',
         render: (text, data) => {
           return <span>
-            <Link to={ `/user/update/${ data.key }` }>修改</Link>
+            <Link to={ `/project/service/edit/${ data.key }` }>修改</Link>
             <span className="ant-divider"></span>
             <a href="javascript:;" onClick={ this.removeItem(data) }>删除</a>
           </span>

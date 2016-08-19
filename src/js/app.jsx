@@ -32,6 +32,7 @@ ReactDOM.render((
         <Route path="line/add" component={ ProjectLineAdd }></Route>
         <Route path="line/list" component={ ProjectLineList }></Route>
         <Route path="service/add" component={ ProjectServiceAdd }></Route>
+        <Route path="service/edit/:id" component={ ProjectServiceAdd }></Route>
         <Route path="service/list" component={ ProjectServiceList }></Route>
         <Route path="ae/add" component={ ProjectAEAdd }></Route>
         <Route path="ae/list" component={ ProjectAEList }></Route>

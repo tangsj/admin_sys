@@ -17,6 +17,8 @@ class AddForm extends React.Component {
     }
     submitHandler(e){
       e.preventDefault();
+      const id = this.props.id;
+
       this.props.form.validateFields((errors, values) => {
         if (!!errors) {
           return;
@@ -26,8 +28,14 @@ class AddForm extends React.Component {
           sending: true
         });
 
+        let url = apiRoot + 'api/service/add';
+        if(id){
+          url = apiRoot + 'api/service/edit/' + id;
+        }
+
+        // 新增 OR 修改
         $.ajax({
-          url: apiRoot + 'api/service/add',
+          url: url,
           type: 'post',
           dataType: 'json',
           data: values,
@@ -40,13 +48,13 @@ class AddForm extends React.Component {
 
           if(res.code == 1){
             type = 'success';
-            mt = '添加成功';
-            mc = `您已新增服务机构：${ values.name }`;
+            mt = id ? '修改成功' : '添加成功';
+            mc = id ? `您已修改服务机构：${ values.name }` : `您已新增服务机构：${ values.name }`;
             this.props.form.resetFields();
           }else{
             type = 'error';
-            mt = '添加失败';
-            mc = `消息：${ res.body.message }`;
+            mt = id ? '修改失败' : '添加失败';
+            mc = `消息：${ res.message }`;
           }
 
           notification[type]({
@@ -60,11 +68,37 @@ class AddForm extends React.Component {
             duration: 2
           });
         });
-        return false;
       });
+
+      return false;
+    }
+    componentDidMount() {
+      let id = this.props.id;
+      const { setFieldsValue } = this.props.form;
+      if(!!id){
+        $.ajax({
+          url: apiRoot + 'api/service/get/' + id,
+          type: 'get',
+          dataType: 'json'
+        }).done((res) => {
+          if(res.code == 1){
+            setFieldsValue({
+              name: res.data[0].name,
+              desc: res.data[0].desc
+            });
+          }
+        }).fail(() => {
+          notification.error({
+            message: '服务器异常',
+            duration: 2
+          });
+        });
+      }
     }
     render() {
-      const { getFieldProps } = this.props.form;
+
+      const { getFieldProps, setFieldsValue } = this.props.form;
+
       const formItemLayout = {
         labelCol: { span: 2 },
         wrapperCol: { span: 7 }
@@ -78,7 +112,6 @@ class AddForm extends React.Component {
           trigger: 'onBlur'
         }]
       });
-
       const descProps = getFieldProps('desc');
 
       return (
@@ -111,8 +144,8 @@ const ServiceFrom = Form.create()(AddForm);
 
 class ProjectServiceAdd extends React.Component {
     constructor(props) {
-        super(props);
-        this.displayName = 'ProjectServiceAdd';
+      super(props);
+      this.displayName = 'ProjectServiceAdd';
     }
     render() {
       return (
@@ -120,10 +153,10 @@ class ProjectServiceAdd extends React.Component {
           <Breadcrumb>
             <Breadcrumb.Item><Icon type="home"/>首页</Breadcrumb.Item>
             <Breadcrumb.Item>项目管理</Breadcrumb.Item>
-            <Breadcrumb.Item>添加服务机构</Breadcrumb.Item>
+            <Breadcrumb.Item>{ this.props.params.id ? '修改' : '添加' }服务机构</Breadcrumb.Item>
           </Breadcrumb>
 
-          <ServiceFrom />
+          <ServiceFrom id={ this.props.params.id }/>
         </div>
       );
     }

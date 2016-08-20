@@ -19,6 +19,7 @@ class AddForm extends React.Component {
       e.preventDefault();
       const id = this.props.id;
 
+
       this.props.form.validateFields((errors, values) => {
         if (!!errors) {
           return;
@@ -70,6 +71,7 @@ class AddForm extends React.Component {
         });
       });
 
+      this.props.call();
       return false;
     }
     componentDidMount() {
@@ -147,6 +149,9 @@ class ProjectServiceAdd extends React.Component {
       super(props);
       this.displayName = 'ProjectServiceAdd';
     }
+    callHandler(){
+      this.context.router.push('/project/service/list');
+    }
     render() {
       return (
         <div>
@@ -156,10 +161,14 @@ class ProjectServiceAdd extends React.Component {
             <Breadcrumb.Item>{ this.props.params.id ? '修改' : '添加' }服务机构</Breadcrumb.Item>
           </Breadcrumb>
 
-          <ServiceFrom id={ this.props.params.id }/>
+          <ServiceFrom call={ this.callHandler.bind(this) } id={ this.props.params.id }/>
         </div>
       );
     }
+}
+
+ProjectServiceAdd.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default ProjectServiceAdd;

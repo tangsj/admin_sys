@@ -99,7 +99,7 @@ class AddForm extends React.Component {
     }
     render() {
 
-      const { getFieldProps, setFieldsValue } = this.props.form;
+      const { getFieldProps } = this.props.form;
 
       const formItemLayout = {
         labelCol: { span: 2 },

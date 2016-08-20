@@ -44,7 +44,29 @@ class serviceController extends Controller
       return response()->json($res);
     }
     /**
-     * 获取服务机构列表
+     * 获取所有服务机构列表
+     * @return [type] [description]
+     */
+    public function all(Request $request){
+      $res = [
+        'code' => 0,
+        'message' => '',
+        'data' => []
+      ];
+
+      $services = DB::table('service')
+                  ->select('id as key', 'name', 'desc')
+                  ->orderBy('created', 'desc')
+                  ->get();
+
+      $res['code'] = 1;
+      $res['message'] = '查询成功';
+      $res['data'] = $services;
+
+      return response()->json($res);
+    }
+    /**
+     * 获取服务机构列表 带分页
      * @return [type] [description]
      */
     public function list(Request $request){

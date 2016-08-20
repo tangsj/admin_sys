@@ -23,9 +23,12 @@ Route::group(['middleware' => 'cros'], function(){
    * 在VerifyCsrfToken中添加csrf排除
    */
 
+  /* 服务机构相关 */
   // 根据ID获取一条服务机构信息
   Route::get('api/service/get/{id}', 'serviceController@get');
-  // 获取服务机构列表
+  // 获取全部服务机构列表
+  Route::get('api/service/all', 'serviceController@all');
+  // 获取服务机构列表 带分页信息
   Route::get('api/service/list', 'serviceController@list');
   // 添加服务机构
   Route::post('api/service/add', 'serviceController@add');
@@ -33,4 +36,7 @@ Route::group(['middleware' => 'cros'], function(){
   Route::post('api/service/del', 'serviceController@del');
   // 修改服务机构
   Route::post('api/service/edit/{id}', 'serviceController@edit');
+
+  /* AE 相关 */
+  Route::post('api/ae/add', 'aeController@add');
 });

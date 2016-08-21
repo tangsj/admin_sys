@@ -29,15 +29,14 @@ class AddForm extends React.Component {
         callback(new Error('手机号码格式有误！'));
       }
     }
-    submieHandler(e){
+    submitHandler(e){
       e.preventDefault();
-      var id = false;
+      const id = this.props.id;
+
       this.props.form.validateFields((errors, values) => {
         if (!!errors) {
           return;
         }
-
-        console.log(values);
 
         let url = apiRoot + 'api/ae/add';
         if(id){
@@ -67,7 +66,10 @@ class AddForm extends React.Component {
           notification[type]({
             message: mt,
             description: mc,
-            duration: 3
+            duration: 2,
+            onClose: () => {
+              this.props.call();
+            }
           });
         }).fail(() => {
           notification.error({
@@ -76,6 +78,31 @@ class AddForm extends React.Component {
           });
         });
       });
+    }
+    setFormData(){
+      let id = this.props.id;
+      const { setFieldsValue } = this.props.form;
+      if(!!id){
+        $.ajax({
+          url: apiRoot + 'api/ae/get/' + id,
+          type: 'get',
+          dataType: 'json'
+        }).done((res) => {
+          if(res.code == 1){
+            setFieldsValue({
+              name: res.data[0].name,
+              enname: res.data[0].enname,
+              phone: res.data[0].phone,
+              serviceid: res.data[0].serviceid
+            });
+          }
+        }).fail(() => {
+          notification.error({
+            message: '服务器异常',
+            duration: 2
+          });
+        });
+      }
     }
     componentDidMount() {
       $.ajax({
@@ -91,6 +118,8 @@ class AddForm extends React.Component {
           this.setState({
             serviceOptions: options
           });
+
+          this.setFormData();
         }
       }).fail(() => {
         notification.error({
@@ -173,7 +202,7 @@ class AddForm extends React.Component {
           </FormItem>
 
           <FormItem wrapperCol={{ offset: 2 }} style={{ marginTop: 24 }}>
-            <Button type="primary" onClick={ this.submieHandler.bind(this) } htmlType="submit">确定</Button>
+            <Button type="primary" onClick={ this.submitHandler.bind(this) } htmlType="submit">确定</Button>
           </FormItem>
         </Form>
       );
@@ -187,6 +216,9 @@ class ProjectAEAdd extends React.Component {
       super(props);
       this.displayName = 'ProjectAEAdd';
     }
+    callHandler(){
+      this.context.router.push('/project/ae/list');
+    }
     render() {
       return (
         <div>
@@ -196,7 +228,7 @@ class ProjectAEAdd extends React.Component {
             <Breadcrumb.Item>添加AE</Breadcrumb.Item>
           </Breadcrumb>
 
-          <AEForm />
+          <AEForm call={ this.callHandler.bind(this) } id={ this.props.params.id }/>
         </div>
       );
     }

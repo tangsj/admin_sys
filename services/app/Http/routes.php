@@ -38,5 +38,14 @@ Route::group(['middleware' => 'cros'], function(){
   Route::post('api/service/edit/{id}', 'serviceController@edit');
 
   /* AE 相关 */
+  // 根据ID获取一条AE信息
+  Route::get('api/ae/get/{id}', 'aeController@get');
+  // 获取AE列表 带分页信息
+  Route::get('api/ae/list', 'aeController@list');
+  // 添加 AE 人员
   Route::post('api/ae/add', 'aeController@add');
+  // 删除 AE
+  Route::post('api/ae/del', 'aeController@del');
+  // 修改 AE
+  Route::post('api/ae/edit/{id}', 'aeController@edit');
 });

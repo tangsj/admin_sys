@@ -61,7 +61,10 @@ class AddForm extends React.Component {
           notification[type]({
             message: mt,
             description: mc,
-            duration: 3
+            duration: 2,
+            onClose: () => {
+              this.props.call();
+            }
           });
         }).fail(() => {
           notification.error({
@@ -71,10 +74,9 @@ class AddForm extends React.Component {
         });
       });
 
-      this.props.call();
       return false;
     }
-    componentDidMount() {
+    setFormData(){
       let id = this.props.id;
       const { setFieldsValue } = this.props.form;
       if(!!id){
@@ -96,6 +98,9 @@ class AddForm extends React.Component {
           });
         });
       }
+    }
+    componentDidMount() {
+      this.setFormData();
     }
     render() {
 

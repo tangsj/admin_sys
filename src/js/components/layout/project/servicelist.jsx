@@ -115,6 +115,12 @@ class ProjectServiceList extends React.Component {
       });
     }
     handleTableChange(pagination, filters, sorter){
+      const pager = this.state.pagination;
+      pager.current = pagination.current;
+      this.setState({
+        pagination: pager,
+      });
+
       this.getList({
         page: pagination.current,
         pageSize: pagination.pageSize

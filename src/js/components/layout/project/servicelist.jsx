@@ -20,9 +20,6 @@ class ProjectServiceList extends React.Component {
         }
       }
     }
-    static defaultProps = {
-      list : []
-    }
     removeItem(item) {
       const self = this;
       return function(){

@@ -48,4 +48,16 @@ Route::group(['middleware' => 'cros'], function(){
   Route::post('api/ae/del', 'aeController@del');
   // 修改 AE
   Route::post('api/ae/edit/{id}', 'aeController@edit');
+
+  /* 项目 相关 */
+  // 根据ID获取一条项目信息
+  Route::get('api/project/get/{id}', 'projectController@get');
+  // 获取项目列表 带分页信息
+  Route::get('api/project/list', 'projectController@list');
+  // 添加项目
+  Route::post('api/project/add', 'projectController@add');
+  // 删除项目
+  Route::post('api/project/del', 'projectController@del');
+  // 修改项目
+  Route::post('api/project/edit/{id}', 'projectController@edit');
 });

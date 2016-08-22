@@ -153,13 +153,21 @@ class serviceController extends Controller
         return response()->json($res);
       }
 
-      $res = DB::table('service')->whereIn('id', $request->ids)->delete();
+      $rows = DB::table('service')->whereIn('id', $request->ids)->delete();
 
-      $res = [
-        'code' => 1,
-        'message' => '删除成功！',
-        'data' => $request->ids
-      ];
+      if($rows > 0){
+        $res = [
+          'code' => 1,
+          'message' => '删除成功！',
+          'data' => $request->ids
+        ];
+      }else{
+        $res = [
+          'code' => 0,
+          'message' => '删除失败！',
+          'data' => $request->ids
+        ];
+      }
 
       return response()->json($res);
     }

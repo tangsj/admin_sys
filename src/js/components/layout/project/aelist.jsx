@@ -143,6 +143,7 @@ class ProjectAEList extends React.Component {
         dataIndex: 'servicename',
       }, {
         title: '操作',
+        width: 120,
         key: 'operation',
         render: (text, data) => {
           return <span>

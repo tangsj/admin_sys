@@ -29,6 +29,7 @@ ReactDOM.render((
         <IndexRoute component={ ProjectList }/>
         <Route path="list" component={ ProjectList }></Route>
         <Route path="add" component={ ProjectAdd }></Route>
+        <Route path="edit/:id" component={ ProjectAdd }></Route>
         <Route path="line/add" component={ ProjectLineAdd }></Route>
         <Route path="line/list" component={ ProjectLineList }></Route>
         <Route path="service/add" component={ ProjectServiceAdd }></Route>

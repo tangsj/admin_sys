@@ -71,12 +71,15 @@ class ProjectLineList extends React.Component {
         dataIndex: 'head',
       }, {
         title: '操作',
+        width: 150,
         key: 'operation',
         render: (text, data) => {
           return <span>
             <Link to={ `/user/update/${ data.key }` }>修改</Link>
             <span className="ant-divider"></span>
             <a href="javascript:;" onClick={ this.removeItem(data) }>删除</a>
+            <span className="ant-divider"></span>
+            <a href="javascript:;" onClick={ this.removeItem(data) }>估价</a>
           </span>
         }
       }];

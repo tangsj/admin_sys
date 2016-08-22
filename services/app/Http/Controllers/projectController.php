@@ -107,6 +107,30 @@ class projectController extends Controller
     }
 
     /**
+     * 获取所有项目列表
+     * @return [type] [description]
+     */
+    public function all(Request $request){
+      $res = [
+        'code' => 0,
+        'message' => '',
+        'data' => []
+      ];
+
+      $services = DB::table('project')
+                  ->leftJoin('service', 'project.serviceid', '=', 'service.id')
+                  ->select('project.id as key', 'project.name', 'project.description', 'project.serviceid', 'service.name as servicename')
+                  ->orderBy('project.created', 'desc')
+                  ->get();
+
+      $res['code'] = 1;
+      $res['message'] = '查询成功';
+      $res['data'] = $services;
+
+      return response()->json($res);
+    }
+
+    /**
      * 根据ID删除项目
      * @param  Request $request [description]
      * @return [type]           [description]

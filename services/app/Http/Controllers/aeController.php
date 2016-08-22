@@ -77,6 +77,30 @@ class aeController extends Controller
     }
 
     /**
+     * 获取所有AE列表
+     * @return [type] [description]
+     */
+    public function all(Request $request){
+      $res = [
+        'code' => 0,
+        'message' => '',
+        'data' => []
+      ];
+
+      $services = DB::table('ae')
+                  ->leftJoin('service', 'ae.serviceid', '=', 'service.id')
+                  ->select('ae.id as key', 'ae.name', 'ae.enname', 'ae.phone', 'ae.serviceid', 'service.name as servicename')
+                  ->orderBy('ae.created', 'desc')
+                  ->get();
+
+      $res['code'] = 1;
+      $res['message'] = '查询成功';
+      $res['data'] = $services;
+
+      return response()->json($res);
+    }
+
+    /**
      * 查询 AE 列表 带分页
      * @param  Request $request [description]
      * @return [type]           [description]

@@ -98,7 +98,7 @@ class AddForm extends React.Component {
       }).done((res) => {
         if(res.code == 1){
           let options = res.data.map(function(item, index){
-            return <Option key={ `s_${item.key}` } value={ item.key }>{ item.name }</Option>
+            return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ item.name }</Option>
           });
 
           this.setState({
@@ -143,12 +143,11 @@ class AddForm extends React.Component {
       const descProps = getFieldProps('description', {});
 
       return (
-        <Form horizontal form={this.props.form}>
+        <Form horizontal>
           <FormItem
             {...formItemLayout}
             label="项目名称"
             required
-            hasFeedback
           >
             <Input {...nameProps} placeholder="输入项目名称"/>
           </FormItem>
@@ -157,7 +156,6 @@ class AddForm extends React.Component {
             {...formItemLayout}
             label="所属服务机构"
             required
-            hasFeedback
           >
             <Select {...serviceIDProps} placeholder="选择所属服务机构">
               { this.state.serviceOptions }

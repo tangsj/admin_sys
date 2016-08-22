@@ -122,12 +122,11 @@ class AddForm extends React.Component {
       const descProps = getFieldProps('desc');
 
       return (
-        <Form horizontal form={ this.props.form }>
+        <Form horizontal>
           <FormItem
             {...formItemLayout}
             label="机构名称"
             required
-            hasFeedback
           >
             <Input {...nameProps} placeholder="输入机构名称"/>
           </FormItem>

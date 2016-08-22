@@ -40,6 +40,8 @@ Route::group(['middleware' => 'cros'], function(){
   /* AE 相关 */
   // 根据ID获取一条AE信息
   Route::get('api/ae/get/{id}', 'aeController@get');
+  // 获取全部AE列表
+  Route::get('api/ae/all', 'aeController@all');
   // 获取AE列表 带分页信息
   Route::get('api/ae/list', 'aeController@list');
   // 添加 AE 人员
@@ -52,6 +54,8 @@ Route::group(['middleware' => 'cros'], function(){
   /* 项目 相关 */
   // 根据ID获取一条项目信息
   Route::get('api/project/get/{id}', 'projectController@get');
+  // 获取全部项目列表
+  Route::get('api/project/all', 'projectController@all');
   // 获取项目列表 带分页信息
   Route::get('api/project/list', 'projectController@list');
   // 添加项目
@@ -60,4 +64,8 @@ Route::group(['middleware' => 'cros'], function(){
   Route::post('api/project/del', 'projectController@del');
   // 修改项目
   Route::post('api/project/edit/{id}', 'projectController@edit');
+
+  /* 项目流水 相关 */
+  // 添加项目流水
+  Route::post('api/pline/add', 'plineController@add');
 });

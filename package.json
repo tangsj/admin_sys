@@ -16,8 +16,9 @@
   "dependencies": {
     "antd": "^1.2.1",
     "jquery": "^3.1.0",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6",
+    "moment": "^2.14.1",
+    "react": "^15.x",
+    "react-dom": "^15.x",
     "react-router": "^2.4.1"
   },
   "devDependencies": {

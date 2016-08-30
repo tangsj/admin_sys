@@ -1,7 +1,5 @@
 /**
  * 添加项目流水
- * "react": "^0.14.6",
-    "react-dom": "^0.14.6"
  * @author tangsj
  */
 import { apiRoot } from 'config';
@@ -18,7 +16,10 @@ class AddForm extends React.Component {
 
       this.state = {
         projectOptions: [],
-        aeOptions: []
+        aeOptions: [],
+        descArr: [],
+        descValidationStatus: 'success',
+        descValidationHelp: ''
       }
     }
     handleSubmit(e){
@@ -29,6 +30,15 @@ class AddForm extends React.Component {
         if (!!errors) {
           return;
         }
+        // 验证是添加流水描述
+        if(this.state.descArr.length == 0){
+          this.setState({
+            descValidationStatus: 'error',
+            descValidationHelp: '请输入项目描述，15字以上'
+          });
+          return false;
+        }
+        values.description = this.state.descArr;
 
         // 格式化开始和结束时间
         values.startTime = moment(values.startTime).format('YYYY-MM-DD HH:mm:ss');
@@ -132,6 +142,43 @@ class AddForm extends React.Component {
         console.log('data load over')
       });
     }
+    removeDesc(index){
+      let arr = this.state.descArr;
+      // 删除
+      arr.splice(index, 1);
+
+      this.setState({
+        descArr: arr
+      })
+    }
+    addDesc(e){
+      const { getFieldValue, setFieldsValue } = this.props.form;
+
+      if(e.type == 'click' || (e.type == 'keyup' && e.keyCode == 13)){
+        let desc = (getFieldValue('description') || '').trim();
+        let descInstace = this.props.form.getFieldInstance('description');
+
+        if(desc.length < 15){
+          this.setState({
+            descValidationStatus: 'error',
+            descValidationHelp: '请输入项目描述，15字以上'
+          });
+
+          descInstace.refs.input.focus();
+        }else{
+          setFieldsValue({
+            'description': ''
+          });
+          this.setState({
+            descArr: [desc].concat(this.state.descArr),
+            descValidationStatus: 'success',
+            descValidationHelp: ''
+          });
+        }
+      }
+
+      return false;
+    }
     render() {
       const { getFieldProps } = this.props.form;
       const formItemLayout = {
@@ -148,19 +195,12 @@ class AddForm extends React.Component {
         }]
       });
 
-      const descriptionProps = getFieldProps('description', {
-        validate: [{
-          rules: [
-            { required: true, message: "项目描述不能为空"},
-          ],
-          trigger: 'onBlur'
-        }]
-      });
+      const descriptionProps = getFieldProps('description');
 
       const proProps = getFieldProps('pid', {
         validate: [{
           rules: [
-            { required: true, message: "所属项目不能为空", type: "integer"},
+            { required: true, message: "所属项目不能为空"},
           ],
           trigger: 'onBlur'
         }]
@@ -169,7 +209,7 @@ class AddForm extends React.Component {
       const aeProps = getFieldProps('aeid', {
         validate: [{
           rules: [
-            { required: true, message: "AE不能为空", type: "integer"},
+            { required: true, message: "AE不能为空"},
           ],
           trigger: 'onBlur'
         }]
@@ -205,14 +245,9 @@ class AddForm extends React.Component {
         }]
       });
 
-      const statusProps = getFieldProps('status', {
-        validate: [{
-          rules: [
-            { required: true, message: "项目状态不能为空"},
-          ],
-          trigger: 'onBlur'
-        }]
-      });
+      const descAfter = (
+        <Icon type="plus" onClick={ this.addDesc.bind(this) } style={{ cursor: "pointer" }}/>
+      );
 
       return (
         <Form horizontal>
@@ -228,9 +263,30 @@ class AddForm extends React.Component {
             {...formItemLayout}
             label="流水描述"
             required
+            validateStatus={ this.state.descValidationStatus }
+            help={ this.state.descValidationHelp }
           >
-            <Input {...descriptionProps} type="textarea" placeholder="请输入项目描述,30字以上" rows={10}/>
+            <Input onKeyUp={ this.addDesc.bind(this) }
+                   {...descriptionProps}
+                   placeholder="请输入项目描述，15字以上"
+                   addonAfter={ descAfter }
+            />
           </FormItem>
+
+          {
+            this.state.descArr.map((text, index) => {
+              return (
+                <FormItem
+                  label={ index+1 }
+                  key={ `desc_${ index }` }
+                  {...formItemLayout}
+                >
+                  <p className="ant-form-text" name="static">{ text }</p>
+                  <p className="ant-form-text"><a onClick={ this.removeDesc.bind(this, index) } href="javascript:;">删除</a></p>
+                </FormItem>
+              )
+            })
+          }
 
           <FormItem
             {...formItemLayout}
@@ -284,20 +340,8 @@ class AddForm extends React.Component {
             <Input {...chargeProps} placeholder="请输入项目负责人姓名"/>
           </FormItem>
 
-          <FormItem
-            {...formItemLayout}
-            label="进行状态"
-            required
-          >
-            <Select {...statusProps} placeholder="请选择项目当前状态">
-              <Option value="1">未开始</Option>
-              <Option value="2">进行中</Option>
-              <Option value="3">已结束</Option>
-            </Select>
-          </FormItem>
-
           <FormItem wrapperCol={{ offset: 2 }} style={{ marginTop: 24 }}>
-            <Button type="primary" onClick={ this.handleSubmit.bind(this) } htmlType="submit">确定</Button>
+            <Button type="primary" onClick={ this.handleSubmit.bind(this) } >提 交</Button>
           </FormItem>
         </Form>
       );

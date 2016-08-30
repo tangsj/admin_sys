@@ -93,7 +93,7 @@ class AddForm extends React.Component {
               name: res.data[0].name,
               enname: res.data[0].enname,
               phone: res.data[0].phone,
-              serviceid: res.data[0].serviceid
+              serviceid: res.data[0].serviceid.toString()
             });
           }
         }).fail(() => {
@@ -157,7 +157,7 @@ class AddForm extends React.Component {
       const serviceIDProps = getFieldProps('serviceid', {
         validate: [{
           rules: [
-            { required: true, message: "请选择服务机构", type: "integer"},
+            { required: true, message: "请选择服务机构"},
           ],
           trigger: 'onBlur'
         }]

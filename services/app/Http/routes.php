@@ -66,6 +66,15 @@ Route::group(['middleware' => 'cros'], function(){
   Route::post('api/project/edit/{id}', 'projectController@edit');
 
   /* 项目流水 相关 */
+  // 获取项目流水列表 带分页信息
+  Route::get('api/pline/list', 'plineController@list');
+  // 获取ID对应的流水描述信息
+  Route::get('api/pline/desc/{id}', 'plineController@getDescById');
   // 添加项目流水
   Route::post('api/pline/add', 'plineController@add');
+  // 删除项目流水
+  Route::post('api/pline/del', 'plineController@del');
+  // 设置价格
+  Route::post('api/pline/setprice', 'plineController@setPrice');
+
 });

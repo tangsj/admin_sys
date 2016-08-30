@@ -7,6 +7,7 @@ import '../css/main.css';
 
 import { Router, Route, browserHistory, IndexRoute, hashHistory } from 'react-router';
 
+import Login from 'components/layout/login';
 import {
   App, Dashboard,
   UserIndex, UserList,
@@ -16,9 +17,17 @@ import {
   NoMatch
 } from 'components/index';
 
+// 登录验证
+const enterAuth = (nextState, replace, callback) => {
+  console.log(nextState);
+  replace('/login');
+  callback();
+}
+
 ReactDOM.render((
   <Router history={ browserHistory }>
-    <Route path="/" component={ App }>
+    <Route path="/login" component={ Login }></Route>
+    <Route path="/" onEnter={ enterAuth } component={ App }>
       <IndexRoute component={ Dashboard }/>
       <Route path="/user" component={ UserIndex }>
         <IndexRoute component={ UserList }/>

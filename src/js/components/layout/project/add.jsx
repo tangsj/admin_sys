@@ -13,6 +13,7 @@ class AddForm extends React.Component {
       this.displayName = 'AddForm';
 
       this.state = {
+        serviceData: [],
         serviceOptions : []
       }
     }
@@ -78,7 +79,7 @@ class AddForm extends React.Component {
           if(res.code == 1){
             setFieldsValue({
               name: res.data[0].name,
-              serviceid: res.data[0].serviceid,
+              serviceid: res.data[0].serviceid.toString(),
               description: res.data[0].description
             });
           }
@@ -102,6 +103,7 @@ class AddForm extends React.Component {
           });
 
           this.setState({
+            serviceData: res.data,
             serviceOptions: options
           });
 
@@ -123,6 +125,7 @@ class AddForm extends React.Component {
       };
 
       const nameProps = getFieldProps('name', {
+        // initialValue: '12312313131312312',
         validate: [{
           rules: [
             { required: true, message: "请输入项目名称" },
@@ -132,9 +135,10 @@ class AddForm extends React.Component {
       });
 
       const serviceIDProps = getFieldProps('serviceid', {
+        // initialValue: '25',
         validate: [{
           rules: [
-            { required: true, message: "请选择服务机构", type: "integer"},
+            { required: true, message: "请选择服务机构"},
           ],
           trigger: 'onBlur'
         }]

@@ -7,3 +7,28 @@
     margin-bottom: 20px;
   }
 }
+
+.pline_desc_modal{
+  .pline_desc_list{
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    position: relative;
+    font-size: 14px;
+    &:before{
+      content: attr(data-index);
+      position: absolute;
+      top: 8px;
+      left: 0;
+      font-weight: bold;
+    }
+  }
+  .pline_desc_price_input{
+    width: 70px;
+    position: absolute;
+    top: 50%;
+    margin-top: -11px;
+    right: 0;
+  }
+}

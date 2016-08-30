@@ -51,7 +51,7 @@ html, body, #app{
     flex-flow: column nowrap;
     .container{
       flex: 1;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
       width: 100%;
     }

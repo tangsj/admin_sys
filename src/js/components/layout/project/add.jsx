@@ -11,6 +11,7 @@ class AddForm extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'AddForm';
+      this._isMounted = false;
 
       this.state = {
         serviceData: [],
@@ -38,6 +39,7 @@ class AddForm extends React.Component {
           dataType: 'json',
           data: values,
         }).done((res) => {
+          if(!this._isMounted) return false;
           let mt = '', mc = '', type = 'info';
 
           if(res.code == 1){
@@ -76,6 +78,7 @@ class AddForm extends React.Component {
           type: 'get',
           dataType: 'json'
         }).done((res) => {
+          if(!this._isMounted) return false;
           if(res.code == 1){
             setFieldsValue({
               name: res.data[0].name,
@@ -91,12 +94,17 @@ class AddForm extends React.Component {
         });
       }
     }
+    componentWillUnmount() {
+      this._isMounted = false;
+    }
     componentDidMount() {
+      this._isMounted = true;
       $.ajax({
         url: apiRoot + 'api/service/all',
         type: 'get',
         dataType: 'json'
       }).done((res) => {
+        if(!this._isMounted) return false;
         if(res.code == 1){
           let options = res.data.map(function(item, index){
             return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ item.name }</Option>

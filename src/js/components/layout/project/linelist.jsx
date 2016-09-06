@@ -10,6 +10,7 @@ class ProjectLineList extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'ProjectLineList';
+      this._isMounted = false;
 
       this.state = {
         loading: true,
@@ -72,6 +73,8 @@ class ProjectLineList extends React.Component {
         dataType: 'json',
         data: { ids: ids },
       }).done((res) => {
+        if(!this._isMounted) return false;
+
         this.setState({ loading: false });
         if(res.code == 1){
           message.success('删除成功');
@@ -111,6 +114,7 @@ class ProjectLineList extends React.Component {
         dataType: 'json',
         data: params,
       }).done((res) => {
+        if(!this._isMounted) return false;
         const data = res.data;
         const pagination = this.state.pagination;
 
@@ -129,7 +133,11 @@ class ProjectLineList extends React.Component {
         });
       });
     }
+    componentWillUnmount() {
+      this._isMounted = false;
+    }
     componentDidMount() {
+      this._isMounted = true;
       this.getList({
         page: this.state.pagination.current
       });
@@ -141,6 +149,8 @@ class ProjectLineList extends React.Component {
         type: 'get',
         dataType: 'json'
       }).done((res) => {
+        if(!this._isMounted) return false;
+
         if(res.code == 1){
           this.setState({
             descListData: res.data

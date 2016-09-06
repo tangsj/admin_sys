@@ -9,6 +9,7 @@ class ProjectServiceList extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'ProjectServiceList';
+      this._isMounted = false;
 
       this.state = {
         loading: true,
@@ -67,6 +68,7 @@ class ProjectServiceList extends React.Component {
         dataType: 'json',
         data: params,
       }).done((res) => {
+        if(!this._isMounted)return false;
         const data = res.data;
         const pagination = this.state.pagination;
 
@@ -93,6 +95,7 @@ class ProjectServiceList extends React.Component {
         dataType: 'json',
         data: { ids: ids },
       }).done((res) => {
+        if(!this._isMounted)return false;
         this.setState({ loading: false });
         if(res.code == 1){
           message.success('删除成功');
@@ -123,7 +126,11 @@ class ProjectServiceList extends React.Component {
         pageSize: pagination.pageSize
       });
     }
+    componentWillUnmount() {
+      this._isMounted = false;
+    }
     componentDidMount() {
+      this._isMounted = true;
       this.getList({
         page: this.state.pagination.current
       });

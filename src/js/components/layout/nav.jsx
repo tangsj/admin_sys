@@ -7,6 +7,7 @@ class Nav extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'Nav';
+      this._isMounted = false;
 
       this.state = {
         current: '',
@@ -46,6 +47,14 @@ class Nav extends React.Component {
         current: selKey,
         openKeys: openKeys
       });
+    }
+
+    componentDidMount() {
+      this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+      this._isMounted = false;
     }
 
     render() {

@@ -8,11 +8,13 @@ class VerifyCsrfToken extends BaseVerifier
 {
     /**
      * The URIs that should be excluded from CSRF verification.
+        // 'api/*'
      *
      * @var array
      */
     protected $except = [
-        //
-        'api/*'
+      'login',
+      'login/refresh',
+      'api/*'
     ];
 }

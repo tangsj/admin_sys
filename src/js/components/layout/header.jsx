@@ -3,8 +3,12 @@ import { Link } from 'react-router';
 
 class Header extends React.Component {
     constructor(props) {
-        super(props);
-        this.displayName = 'Header';
+      super(props);
+      this.displayName = 'Header';
+      this._isMounted = false;
+    }
+    componentDidMount() {
+      this._isMounted = true;
     }
     render() {
         const menu = (

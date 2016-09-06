@@ -1,12 +1,16 @@
 /* Login Page */
 .login-page{
-  background-color: #2c3338;
+  background-color: #FFF;
   height: 100%;
   .login-form{
-    width: 320px;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  .login-title{
+    font-size: 14px;
+    text-align: center;
+    padding: 20px 0;
   }
 }

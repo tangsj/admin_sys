@@ -8,6 +8,8 @@ import '../css/main.css';
 import { Router, Route, browserHistory, IndexRoute, hashHistory } from 'react-router';
 
 import Login from 'components/layout/login';
+import { enterAuth } from 'routerAuth';
+
 import {
   App, Dashboard,
   UserIndex, UserList,
@@ -17,24 +19,19 @@ import {
   NoMatch
 } from 'components/index';
 
-// 登录验证
-const enterAuth = (nextState, replace, callback) => {
-  console.log(nextState);
-  replace('/login');
-  callback();
-}
 
 ReactDOM.render((
   <Router history={ browserHistory }>
-    <Route path="/login" component={ Login }></Route>
-    <Route path="/" onEnter={ enterAuth } component={ App }>
+    <Route path="login" component={ Login }></Route>
+
+    <Route path="/" onEnter= { enterAuth } component={ App }>
       <IndexRoute component={ Dashboard }/>
-      <Route path="/user" component={ UserIndex }>
+      <Route path="user" component={ UserIndex }>
         <IndexRoute component={ UserList }/>
         <Route path="list" component={ UserList }></Route>
       </Route>
 
-      <Route path="/project" component={ ProjectIndex }>
+      <Route path="project" component={ ProjectIndex }>
         <IndexRoute component={ ProjectList }/>
         <Route path="list" component={ ProjectList }></Route>
         <Route path="add" component={ ProjectAdd }></Route>
@@ -48,8 +45,8 @@ ReactDOM.render((
         <Route path="ae/edit/:id" component={ ProjectAEAdd }></Route>
         <Route path="ae/list" component={ ProjectAEList }></Route>
       </Route>
-
-      <Route path="*" component={ NoMatch }></Route>
     </Route>
+
+    <Route path="*" component={ NoMatch }></Route>
   </Router>
 ), document.querySelector('#app'));

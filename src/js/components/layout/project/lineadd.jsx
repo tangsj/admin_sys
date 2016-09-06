@@ -13,6 +13,7 @@ class AddForm extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'AddForm';
+      this._isMounted = false;
 
       this.state = {
         projectOptions: [],
@@ -55,6 +56,7 @@ class AddForm extends React.Component {
           dataType: 'json',
           data: values,
         }).done((res) => {
+          if(!this._isMounted) return false;
           let mt = '', mc = '', type = 'info';
 
           if(res.code == 1){
@@ -84,7 +86,11 @@ class AddForm extends React.Component {
         });
       });
     }
+    componentWillUnmount() {
+      this._isMounted = false;
+    }
     componentDidMount() {
+      this._isMounted = true;
       // 组件挂载后 加载服务机构和AE列表
       let projectPro = new Promise((resolve, reject) => {
         $.ajax({
@@ -92,6 +98,7 @@ class AddForm extends React.Component {
           type: 'get',
           dataType: 'json'
         }).done((res) => {
+          if(!this._isMounted) return false;
           if(res.code == 1){
             let options = res.data.map(function(item, index){
               return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ item.name }</Option>
@@ -118,6 +125,7 @@ class AddForm extends React.Component {
           type: 'get',
           dataType: 'json'
         }).done((res) => {
+          if(!this._isMounted) return false;
           if(res.code == 1){
             let options = res.data.map(function(item, index){
               return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ item.name }</Option>

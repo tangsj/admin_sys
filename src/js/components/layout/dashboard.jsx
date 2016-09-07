@@ -4,6 +4,13 @@ class Dashboard extends React.Component {
     constructor(props) {
       super(props);
       this.displayName = 'Dashboard';
+      this._isMounted = false;
+    }
+    componentWillUnmount() {
+      this._isMounted = false;
+    }
+    componentDidMount() {
+      this._isMounted = true;
     }
     render() {
       return (

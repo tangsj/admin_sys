@@ -105,7 +105,7 @@ class aeController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function list(Request $request){
+    public function getList(Request $request){
       $res = [
         'code' => 0,
         'message' => '',

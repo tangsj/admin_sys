@@ -33,7 +33,7 @@ Route::group(['middleware' => 'cros'], function(){
     // 获取全部服务机构列表
     Route::get('api/service/all', 'serviceController@all');
     // 获取服务机构列表 带分页信息
-    Route::get('api/service/list', 'serviceController@list');
+    Route::get('api/service/list', 'serviceController@getList');
     // 添加服务机构
     Route::post('api/service/add', 'serviceController@add');
     // 删除服务机构
@@ -47,7 +47,7 @@ Route::group(['middleware' => 'cros'], function(){
     // 获取全部AE列表
     Route::get('api/ae/all', 'aeController@all');
     // 获取AE列表 带分页信息
-    Route::get('api/ae/list', 'aeController@list');
+    Route::get('api/ae/list', 'aeController@getList');
     // 添加 AE 人员
     Route::post('api/ae/add', 'aeController@add');
     // 删除 AE
@@ -61,7 +61,7 @@ Route::group(['middleware' => 'cros'], function(){
     // 获取全部项目列表
     Route::get('api/project/all', 'projectController@all');
     // 获取项目列表 带分页信息
-    Route::get('api/project/list', 'projectController@list');
+    Route::get('api/project/list', 'projectController@getList');
     // 添加项目
     Route::post('api/project/add', 'projectController@add');
     // 删除项目
@@ -71,7 +71,7 @@ Route::group(['middleware' => 'cros'], function(){
 
     /* 项目流水 相关 */
     // 获取项目流水列表 带分页信息
-    Route::get('api/pline/list', 'plineController@list');
+    Route::get('api/pline/list', 'plineController@getList');
     // 获取ID对应的流水描述信息
     Route::get('api/pline/desc/{id}', 'plineController@getDescById');
     // 添加项目流水

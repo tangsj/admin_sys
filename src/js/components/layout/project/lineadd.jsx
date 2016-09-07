@@ -128,7 +128,7 @@ class AddForm extends React.Component {
           if(!this._isMounted) return false;
           if(res.code == 1){
             let options = res.data.map(function(item, index){
-              return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ item.name }</Option>
+              return <Option key={ `s_${item.key}` } value={ `${item.key}` }>{ `${item.name}【${item.enname}】` }</Option>
             });
 
             this.setState({

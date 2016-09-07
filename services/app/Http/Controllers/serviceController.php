@@ -69,7 +69,7 @@ class serviceController extends Controller
      * 获取服务机构列表 带分页
      * @return [type] [description]
      */
-    public function list(Request $request){
+    public function getList(Request $request){
       $res = [
         'code' => 0,
         'message' => '',

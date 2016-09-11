@@ -6,16 +6,21 @@
 
 clone 项目后需要在根目录下执行
 
+```
 npm install
+```
 
 在services 目录下执行
 
+```
 composer install
+```
 
 为Laravel生成密钥
 
+```
 php artisan key:generate
-
+```
 
 ###启动方式
 
